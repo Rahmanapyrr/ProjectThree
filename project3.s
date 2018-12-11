@@ -161,6 +161,18 @@ main:
 		blt $t1, 97, invalid_base 		#checks if character is between 76 and 96
       		blt $t1, 118, Translate_LowerCase 	#checks if character is between 97 and 117
       		blt $t1, 128, invalid_base 		#checks if character is between 118 and 127
+		
+	Translate_Number:
+		addi $t1, $t1, -48 	#subtracts 48 from the ASCII value
+		j Loop			#converts this char to decimal, and adds it to the sum
+		
+	Translate_LowerCase:
+      		addi $t1, $t1, -87 	#subtracts 87 from the ASCII value
+	  	j Loop			#converts this char to decimal, and adds it to the sum
+		
+	Translate_UpperCase:
+      		addi $t1, $t1, -55 	#subtracts 48 from the ASCII value
+	  	j Loop 			#converts this char to decimal, and adds it to the sum
 
 	multiply:
 		mult $t1, $t5 		#multiplying the current char of the string times a power of 31
@@ -177,17 +189,5 @@ main:
 		
 		li $v0,10 	#ends program
 		syscall
-	
-	Translate_Number:
-		addi $t1, $t1, -48 	#subtracts 48 from the ASCII value
-		j Loop			#converts this char to decimal, and adds it to the sum
-		
-	Translate_LowerCase:
-      		addi $t1, $t1, -87 	#subtracts 87 from the ASCII value
-	  	j Loop			#converts this char to decimal, and adds it to the sum
-		
-	Translate_UpperCase:
-      		addi $t1, $t1, -55 	#subtracts 48 from the ASCII value
-	  	j Loop 			#converts this char to decimal, and adds it to the sum
 	
 	
