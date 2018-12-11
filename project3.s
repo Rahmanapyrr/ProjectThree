@@ -154,13 +154,13 @@ main:
 		#j check_string			#Jumpt to check if string is valid. If so, convert to base-10
 		
 	check_string:
-      		blt $t1, 48, invalid_base 		#checks if character is before 0 in ASCII chart
-		blt $t1, 58, Translate_Number 		#checks if character is between 48 and 57
-		blt $t1, 65, invalid_base 		#checks if character is between 58 and 64
-      		blt $t1, 86, Translate_UpperCase 	#checks if character is between 65 and 85
-		blt $t1, 97, invalid_base 		#checks if character is between 76 and 96
-      		blt $t1, 118, Translate_LowerCase 	#checks if character is between 97 and 117
-      		blt $t1, 128, invalid_base 		#checks if character is between 118 and 127
+      		blt $a0, 48, invalid_base 		#checks if character is before 0 in ASCII chart
+		blt $a0, 58, Translate_Number 		#checks if character is between 48 and 57
+		blt $a0, 65, invalid_base 		#checks if character is between 58 and 64
+      		blt $a0, 86, Translate_UpperCase 	#checks if character is between 65 and 85
+		blt $a0, 97, invalid_base 		#checks if character is between 76 and 96
+      		blt $a0, 118, Translate_LowerCase 	#checks if character is between 97 and 117
+      		blt $a0, 128, invalid_base 		#checks if character is between 118 and 127
 		
 	Translate_Number:
 		addi $a0, $a0, -48 	#subtracts 48 from the ASCII value
