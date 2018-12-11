@@ -199,6 +199,8 @@ main:
 		li $v0, 0
 		lw $ra, ($sp)
 		lw $s0, 4($sp)
+		lw $s1, 8($sp)
+		lw $s2, 12($sp)
 		
 
 	
