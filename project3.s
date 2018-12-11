@@ -193,13 +193,8 @@ main:
 	lw $s4, 20($sp)
 	addi $sp, $sp, 24
 	
+	jr $ra
+	
 
-	Exit:
-		move $a0, $t7 	#moves sum to a0
-		li $v0, 1 	#prints contents of a0. Prints the final sum. Yay!!!!
-		syscall
-		
-		li $v0,10 	#ends program
-		syscall
 	
 	
