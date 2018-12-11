@@ -27,8 +27,9 @@ main:
 	addi $t5, $0, 1 	# $t5 = $pow_reg Initialized to 1.
 	addi $t6, $0, 0 	# $t6 = $sum_reg. Initialized to 0
 	addi $t7, $0, 0 	# contents of $t6 will be moved to t7
-	addi $s0, $0, 31 	#s0 contains the multiplicand increment, the base 31
+	addi $s4, $0, 31 	#s4 contains the multiplicand increment, the base 31
 	addi $t4, $0, 32 	#stores 32 (space) in t4
+	addi $t8, $0, 0 	#counter for spaces in between letters
 	
 	#Is_Valid_Spaces?
 	loop_one:
@@ -43,6 +44,7 @@ main:
 		lb $t1,0($t2) 		#loads next char of string
 		addi $t2, $t2, 1 	#increments pointer
 		addi $t3, $t3, 1 	#increment length counter
+		addi $t8, $t8, 1
 		beq $t1, $t0, restart_arr #If we get to the end of the string after seeing just spaces and chars "____abc", start rest of program
 		beq $t1, 0, restart_arr
 		bne $t1, $t4, loop_two 		#if we see another space, restart loop
@@ -51,6 +53,7 @@ main:
 		lb $t1,0($t2)			#loads next char of string
 		addi $t2, $t2, 1		#increments pointer
 		addi $t3, $t3, 1		#increment length counter
+		addi $t8, $t8, 1
 		beq $t1, $t0, restart_arr	#branches to restart the array counter and pointer once we get to the end
 		beq $t1, 0, restart_arr		#branches to restart the array counter and pointer once we get to the end
 		bne $t1, $t4, invalid_base	#If we see something that's not a space, after we already saw spaces then characters and then spaces "ex. a_b", its an invalid input
