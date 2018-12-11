@@ -38,7 +38,7 @@ main:
 		addi $t3, $t3, 1  #increment length counter
 		beq $t1, $t4, loop_one #if the current char is a space, loop
 		beq $t1, $t0, invalid_emptyOUT #if we pass all of the spaces and get to the end of string, it's empty
-		beq $t1, $0, invalid_empty  #if we pass all of the spaces and get to the end of string, it's empty
+		beq $t1, $0, invalid_emptyOUT  #if we pass all of the spaces and get to the end of string, it's empty
 		
 	loop_two:
 		lb $t1,0($t2) 		#loads next char of string
