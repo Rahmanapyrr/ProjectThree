@@ -181,6 +181,9 @@ main:
 		mult $t5, $s0 		#multiplying the power regester times 31, to get to the next power of 31
 		mflo $t5 		#storing the incrementation of the power register
 		bne $t3, $zero Convert
+		jal Convert
+		
+	
 
 	Exit:
 		move $a0, $t7 	#moves sum to a0
