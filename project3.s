@@ -151,7 +151,11 @@ main:
 		move $s2, $a2  #power
 		move $s3, $a3  #len
 		
-		j check_string			#Jumpt to check if string is valid. If so, convert to base-10
+		#j check_string			#Jumpt to check if string is valid. If so, convert to base-10
+		
+	check_string:
+      		blt $t1, 48, invalid_base 		#checks if character is before 0 in ASCII chart
+		blt $t1, 58, Translate_Number 		#checks if character is between 48 and 57
 
 	Loop:
 		mult $t1, $t5 		#multiplying the current char of the string times a power of 31
