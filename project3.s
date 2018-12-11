@@ -70,7 +70,7 @@ main:
 		beq $t1, 32, count_non_space_chars
 		beq $t1, 10, go_back_one	#When we get to the end of the string, go back by one char.
 		beq $t1,0, go_back_one		#When we get to the end of the string, go back by one char.
-		beq $t3, 4, invalid_length 	#If we have reached the count of 4, and we are still seeing more non-space characters, it is invalid 
+		beq $t3, 4, invalid_lengthOUT 	#If we have reached the count of 4, and we are still seeing more non-space characters, it is invalid 
 		addi $t3, $t3, 1 		#increment length counter
 		j count_non_space_chars		#Jumps to beginning of loop
 		
