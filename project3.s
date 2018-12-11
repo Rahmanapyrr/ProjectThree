@@ -128,7 +128,7 @@ main:
 	
 	#BRANCHS FOR PRINTING/EXIT ERROR MESSAGES	
 	#Exit if string is too long
-	invalid_length:
+	invalid_lengthOUT:
 		la $a0, too_long #loads string
       		li $v0, 4 #prints new line for string
 		syscall
