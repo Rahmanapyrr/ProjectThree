@@ -176,8 +176,6 @@ main:
 
 	multiply:
 		mul $s4, $a0, $a2 		#multiplying the current char of the string times a power of 31
-	
-		add $t7, $t7, $t6 	#adding the product to the total sum
 		mult $s5, $a2, $a2 		#multiplying the power regester times 31, to get to the next power of 31
 
 		jal Convert
