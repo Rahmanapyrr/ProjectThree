@@ -162,7 +162,7 @@ main:
       		blt $t1, 118, Translate_LowerCase 	#checks if character is between 97 and 117
       		blt $t1, 128, invalid_base 		#checks if character is between 118 and 127
 
-	Loop:
+	multiply:
 		mult $t1, $t5 		#multiplying the current char of the string times a power of 31
 		mflo $t6 		#moving the product
 		add $t7, $t7, $t6 	#adding the product to the total sum
