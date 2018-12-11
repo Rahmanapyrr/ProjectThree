@@ -201,6 +201,8 @@ main:
 		lw $s0, 4($sp)
 		lw $s1, 8($sp)
 		lw $s2, 12($sp)
+		lw $s3, 16($sp)
+		lw $s4, 20($sp)
 		
 
 	
