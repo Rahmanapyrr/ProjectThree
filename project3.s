@@ -178,9 +178,7 @@ main:
 		li $v0,10 	#ends program
 		syscall
 	
-	check_string:
-      		blt $t1, 48, invalid_base 		#checks if character is before 0 in ASCII chart
-		blt $t1, 58, Translate_Number 		#checks if character is between 48 and 57
+
       		blt $t1, 65, invalid_base 		#checks if character is between 58 and 64
       		blt $t1, 86, Translate_UpperCase 	#checks if character is between 65 and 85
 		blt $t1, 97, invalid_base 		#checks if character is between 76 and 96
