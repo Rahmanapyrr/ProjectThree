@@ -203,6 +203,9 @@ main:
 		lw $s2, 12($sp)
 		lw $s3, 16($sp)
 		lw $s4, 20($sp)
+		addi $sp, $sp, 24
+			
+		jr $ra
 		
 
 	
