@@ -56,7 +56,7 @@ main:
 		addi $t8, $t8, 1
 		beq $t1, $t0, restart_arr	#branches to restart the array counter and pointer once we get to the end
 		beq $t1, 0, restart_arr		#branches to restart the array counter and pointer once we get to the end
-		bne $t1, $t4, invalid_base	#If we see something that's not a space, after we already saw spaces then characters and then spaces "ex. a_b", its an invalid input
+		bne $t1, $t4, invalid_baseChar	#If we see something that's not a space, after we already saw spaces then characters and then spaces "ex. a_b", its an invalid input
 		j loop_three			#restart loop
 		
 	#Now that we know that the input is valid in terms of spaces, let's restart the counter
@@ -153,5 +153,10 @@ main:
 
       		li $v0,10 #ends program
       		syscall
+	
+	#Exit if we see spaces in the middle of character
+	invalid_baseChar:
+		bgt $t8, 3, invalid_lengthOUT
+		j invalid_baseOUT
 	 
 	jr $ra
