@@ -142,9 +142,9 @@ main:
 		sw $s4, 20($sp)
 		beq $a3, $0, finish
 		
-		lb $t1, ($t2)			#loading current character of the string decrementally
-		addi $t2, $t2, -1		#decrementing the address of the character	
-		addi $t3, $t3, -1 		#decrement the length
+		lb $a0, ($a1)			#loading current character of the string decrementally
+		addi $a1, $a1, -1		#decrementing the address of the character	
+		addi $a3, $a3, -1 		#decrement the length
 		
 		move $s0, $a0  #curr char
 		move $s1, $a1  #addr char
