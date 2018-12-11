@@ -95,6 +95,42 @@ main:
 		
 	li $v0,10 #ends program
 	syscall
+	
+	#------------------------------------------------------------------------------------------
+	#BRANCHS FOR PRINTING/EXIT ERROR MESSAGES	
+	#Exit if string is too long
+	invalid_lengthOUT:
+		la $a0, too_long #loads string
+      		li $v0, 4 #prints new line for string
+		syscall
+		
+      		li $v0,10 #ends program
+      		syscall
+		
+	#Exit if string is empty
+	invalid_emptyOUT:
+		la $a0, empty #loads string
+      		li $v0, 4 #prints new line for string
+      		syscall
+		
+		li $v0,10 #ends program
+      		syscall
+
+      #Exit if string is Invalid, outside of range
+	invalid_baseOUT:
+		la $a0, not_valid #loads string
+		li $v0, 4 #prints new line for string
+		syscall
+
+      		li $v0,10 #ends program
+      		syscall
+	
+	#Exit if we see spaces in the middle of character
+	invalid_baseChar:
+		bgt $t8, 3, invalid_lengthOUT
+		j invalid_baseOUT
+	 
+	jr $ra
 
 	Convert:
 		lb $t1, ($t2)			#loading current character of the string decrementally
@@ -140,37 +176,4 @@ main:
       		addi $t1, $t1, -55 	#subtracts 48 from the ASCII value
 	  	j Loop 			#converts this char to decimal, and adds it to the sum
 	
-	#BRANCHS FOR PRINTING/EXIT ERROR MESSAGES	
-	#Exit if string is too long
-	invalid_lengthOUT:
-		la $a0, too_long #loads string
-      		li $v0, 4 #prints new line for string
-		syscall
-		
-      		li $v0,10 #ends program
-      		syscall
-		
-	#Exit if string is empty
-	invalid_emptyOUT:
-		la $a0, empty #loads string
-      		li $v0, 4 #prints new line for string
-      		syscall
-		
-		li $v0,10 #ends program
-      		syscall
-
-      #Exit if string is Invalid, outside of range
-	invalid_baseOUT:
-		la $a0, not_valid #loads string
-		li $v0, 4 #prints new line for string
-		syscall
-
-      		li $v0,10 #ends program
-      		syscall
 	
-	#Exit if we see spaces in the middle of character
-	invalid_baseChar:
-		bgt $t8, 3, invalid_lengthOUT
-		j invalid_baseOUT
-	 
-	jr $ra
