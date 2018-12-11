@@ -131,7 +131,7 @@ main:
 		j invalid_baseOUT
 	 
 	jr $ra
-
+.globl Convert
 	Convert:
 		lb $t1, ($t2)			#loading current character of the string decrementally
 		addi $t2, $t2, -1		#decrementing the address of the character	
