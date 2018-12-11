@@ -195,6 +195,11 @@ main:
 	
 	jr $ra
 	
+	finish:
+		li $v0, 0
+		lw $ra, ($sp)
+		lw $s0, 4($sp)
+		
 
 	
 	
