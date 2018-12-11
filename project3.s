@@ -86,6 +86,9 @@ main:
 	move $a1, $t2  #addr char
 	move $a2, $t5  #power
 	move $a3, $t3  #len
+	
+	jal Convert
+	move $a0, $v0
 
 	Convert:
 		lb $t1, ($t2)			#loading current character of the string decrementally
