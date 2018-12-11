@@ -175,12 +175,11 @@ main:
 	  	j multiply		#converts this char to decimal, and adds it to the sum
 
 	multiply:
-		mult $t1, $t5 		#multiplying the current char of the string times a power of 31
+		mult $a0, $a2 		#multiplying the current char of the string times a power of 31
 		mflo $t6 		#moving the product
 		add $t7, $t7, $t6 	#adding the product to the total sum
-		mult $t5, $s0 		#multiplying the power regester times 31, to get to the next power of 31
-		mflo $t5 		#storing the incrementation of the power register
-		bne $t3, $zero Convert
+		mult $s5, $a2 		#multiplying the power regester times 31, to get to the next power of 31
+		mflo $s5 		#storing the incrementation of the power register
 		jal Convert
 	
 	add $v0, $s4, $v0 #Please Work
