@@ -146,7 +146,7 @@ main:
       		syscall
 
       #Exit if string is Invalid, outside of range
-	invalid_base:
+	invalid_baseOUT:
 		la $a0, not_valid #loads string
 		li $v0, 4 #prints new line for string
 		syscall
