@@ -204,6 +204,12 @@ main:
 			
 		jr $ra
 		
+	#Exit if string is too long
+	invalid_length:
+		la $a0, too_long #loads string
+		li $v0, 4 		#prints new line for string
+		syscall
+		
 
 	
 	
