@@ -185,6 +185,10 @@ main:
 	
 	add $v0, $s4, $v0 #Please Work
 	
+	lw $ra, ($sp)
+	lw $s0, 4($sp)
+	lw $s1, 8($sp)
+	
 
 	Exit:
 		move $a0, $t7 	#moves sum to a0
