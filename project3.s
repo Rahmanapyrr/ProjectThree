@@ -6,8 +6,8 @@
 	empty: .asciiz "Input is empty."
 	too_long: .asciiz "Input is too long."
 .text
-.globl main
 
+.globl main
 main:
 	#getting input from user
 	li $v0, 8  
@@ -133,56 +133,56 @@ main:
 	jr $ra
 	
 .globl Convert
-	Convert:
-		addi $sp, $sp, -24
-		sw $ra ($sp)
-		sw $s0, 4($sp)
-		sw $s1, 8($sp)
-		sw $s2, 12($sp)
-		sw $s3, 16($sp)
-		sw $s4, 20($sp)
-		beq $a3, $0, finish
-		
-		lb $a0, ($a1)			#loading current character of the string decrementally
-		addi $a1, $a1, -1		#decrementing the address of the character	
-		addi $a3, $a3, -1 		#decrement the length
-		
-		move $s0, $a0  #curr char
-		move $s1, $a1  #addr char
-		move $s2, $a2  #power
-		move $s3, $a3  #len
-		
-		#j check_string			#Jumpt to check if string is valid. If so, convert to base-10
-		
+Convert:
+	addi $sp, $sp, -24
+	sw $ra ($sp)
+	sw $s0, 4($sp)
+	sw $s1, 8($sp)
+	sw $s2, 12($sp)
+	sw $s3, 16($sp)
+	sw $s4, 20($sp)
+	beq $a3, $0, finish
+
+	lb $a0, ($a1)			#loading current character of the string decrementally
+	addi $a1, $a1, -1		#decrementing the address of the character	
+	addi $a3, $a3, -1 		#decrement the length
+
+	move $s0, $a0  #curr char
+	move $s1, $a1  #addr char
+	move $s2, $a2  #power
+	move $s3, $a3  #len
+
+	#j check_string			#Jumpt to check if string is valid. If so, convert to base-10
+
 	check_string:
-      		blt $a0, 48, invalid_base 		#checks if character is before 0 in ASCII chart
+		blt $a0, 48, invalid_base 		#checks if character is before 0 in ASCII chart
 		blt $a0, 58, Translate_Number 		#checks if character is between 48 and 57
 		blt $a0, 65, invalid_base 		#checks if character is between 58 and 64
-      		blt $a0, 86, Translate_UpperCase 	#checks if character is between 65 and 85
+		blt $a0, 86, Translate_UpperCase 	#checks if character is between 65 and 85
 		blt $a0, 97, invalid_base 		#checks if character is between 76 and 96
-      		blt $a0, 118, Translate_LowerCase 	#checks if character is between 97 and 117
-      		blt $a0, 128, invalid_base 		#checks if character is between 118 and 127
-		
+		blt $a0, 118, Translate_LowerCase 	#checks if character is between 97 and 117
+		blt $a0, 128, invalid_base 		#checks if character is between 118 and 127
+
 	Translate_Number:
 		addi $a0, $a0, -48 	#subtracts 48 from the ASCII value
 		j multiply			#converts this char to decimal, and adds it to the sum
-		
+
 	Translate_LowerCase:
-      		addi $a0, $a0, -87 	#subtracts 87 from the ASCII value
-	  	j multiply		#converts this char to decimal, and adds it to the sum
-		
+		addi $a0, $a0, -87 	#subtracts 87 from the ASCII value
+		j multiply		#converts this char to decimal, and adds it to the sum
+
 	Translate_UpperCase:
-      		addi $a0, $a0, -55 	#subtracts 48 from the ASCII value
-	  	j multiply		#converts this char to decimal, and adds it to the sum
+		addi $a0, $a0, -55 	#subtracts 48 from the ASCII value
+		j multiply		#converts this char to decimal, and adds it to the sum
 
 	multiply:
 		mul $s4, $a0, $a2 		#multiplying the current char of the string times a power of 31
 		mult $s5, $a2, $a2 		#multiplying the power regester times 31, to get to the next power of 31
 
 		jal Convert
-	
+
 	add $v0, $s4, $v0 #Please Work
-	
+
 	lw $ra, ($sp)
 	lw $s0, 4($sp)
 	lw $s1, 8($sp)
@@ -190,9 +190,9 @@ main:
 	lw $s3, 16($sp)
 	lw $s4, 20($sp)
 	addi $sp, $sp, 24
-	
+
 	jr $ra
-	
+
 	finish:
 		li $v0, 0
 		lw $ra, ($sp)
@@ -202,32 +202,32 @@ main:
 		lw $s3, 16($sp)
 		lw $s4, 20($sp)
 		addi $sp, $sp, 24
-			
+
 		jr $ra
-		
+
 	#Exit if string is too long
 	invalid_length:
 		la $a0, too_long #loads string
 		li $v0, 4 		#prints new line for string
 		syscall
-		
+
 		li $v0,10 #ends program
 		syscall
-		
+
 	#Exit if string is empty
 	invalid_empty:
 		la $a0, empty #loads string
 		li $v0, 4 	#prints new line for string
 		syscall
-		
+
 		 li $v0,10 #ends program
 		 syscall
-		
+
 	#Exit if string is Invalid, outside of range
 	invalid_base:
 		la $a0, not_valid #loads string
 		li $v0, 4 		#prints new line for string
 		syscall
-		
+
 		li $v0,10 #ends program
 		syscall
