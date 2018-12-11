@@ -182,7 +182,8 @@ main:
 		mflo $t5 		#storing the incrementation of the power register
 		bne $t3, $zero Convert
 		jal Convert
-		
+	
+	add $v0, $s4, $v0 #Please Work
 	
 
 	Exit:
