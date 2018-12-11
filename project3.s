@@ -178,11 +178,6 @@ main:
 		li $v0,10 	#ends program
 		syscall
 	
-
-      		
-		
-      		blt $t1, 128, invalid_base 		#checks if character is between 118 and 127
-	
 	Translate_Number:
 		addi $t1, $t1, -48 	#subtracts 48 from the ASCII value
 		j Loop			#converts this char to decimal, and adds it to the sum
