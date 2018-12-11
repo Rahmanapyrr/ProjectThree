@@ -135,6 +135,8 @@ main:
 	Convert:
 		addi $sp, $sp, -8
 		sw $ra ($sp)
+		sw $s0, 4($sp)
+		sw $s1, 8($sp)
 		
 		lb $t1, ($t2)			#loading current character of the string decrementally
 		addi $t2, $t2, -1		#decrementing the address of the character	
