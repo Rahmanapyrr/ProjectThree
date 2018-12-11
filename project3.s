@@ -131,6 +131,7 @@ main:
 		j invalid_baseOUT
 	 
 	jr $ra
+	
 .globl Convert
 	Convert:
 		addi $sp, $sp, -24
@@ -223,15 +224,10 @@ main:
 		 syscall
 		
 	#Exit if string is Invalid, outside of range
-		invalid_base:
-		  la $a0, not_valid #loads string
-		  li $v0, 4 		#prints new line for string
-		  syscall
+	invalid_base:
+		la $a0, not_valid #loads string
+		li $v0, 4 		#prints new line for string
+		syscall
 		
 		li $v0,10 #ends program
 		syscall
-
-		
-
-	
-	
