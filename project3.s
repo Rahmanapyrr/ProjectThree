@@ -81,6 +81,11 @@ main:
 		addi $t2, $t2, -1  	#decrements the pointer by one
 		lb $t1, 0($t2)		#loads the current character in the string
 		beq $t1, 32, go_back 	#if we see another space, go back some more
+		
+	move $a0, $t1  #curr char
+	move $a1, $t2  #addr char
+	move $a2, $t5  #power
+	move $a3, $t3  #len
 
 	Convert:
 		lb $t1, ($t2)			#loading current character of the string decrementally
