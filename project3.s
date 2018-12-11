@@ -145,6 +145,12 @@ main:
 		lb $t1, ($t2)			#loading current character of the string decrementally
 		addi $t2, $t2, -1		#decrementing the address of the character	
 		addi $t3, $t3, -1 		#decrement the length
+		
+		move $s0, $a0  #curr char
+		move $s1, $a1  #addr char
+		move $s2, $a2  #power
+		move $s3, $a3  #len
+		
 		j check_string			#Jumpt to check if string is valid. If so, convert to base-10
 
 	Loop:
