@@ -137,6 +137,8 @@ main:
 		sw $ra ($sp)
 		sw $s0, 4($sp)
 		sw $s1, 8($sp)
+		sw $s2, 12($sp)
+		sw $s3, 16($sp)
 		
 		lb $t1, ($t2)			#loading current character of the string decrementally
 		addi $t2, $t2, -1		#decrementing the address of the character	
