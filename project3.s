@@ -89,6 +89,12 @@ main:
 	
 	jal Convert
 	move $a0, $v0
+	
+	li $v0, 1 #prints contents of a0
+	syscall
+		
+	li $v0,10 #ends program
+	syscall
 
 	Convert:
 		lb $t1, ($t2)			#loading current character of the string decrementally
