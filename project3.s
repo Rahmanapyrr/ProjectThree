@@ -1,3 +1,4 @@
+#objective: to convert input from base-31 to base-10 and return the result as output
 .data
 	char_array: .space 500000
 	
