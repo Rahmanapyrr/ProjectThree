@@ -1,4 +1,3 @@
-#objective: to convert input from base-31 to base-10 and return the result as output
 .data
 	char_array: .space 500000
 	
@@ -7,8 +6,8 @@
 	empty: .asciiz "Input is empty."
 	too_long: .asciiz "Input is too long."
 .text
-.globl main
 
+.globl main
 	main:
 		#getting input from user
 		li $v0, 8  
@@ -16,22 +15,21 @@
 		li $a1, 500000
 		syscall
 		
-		add $t1, $0, 0 #initializes $t1 to zero (stores character)
-		add $t3, $0, 0 #initializes $t3 to 1 (counter)
+		addi $s5, $0, 31 					#My Base 31
+		add $t1, $0, 0 						#initializes $t1 to zero (stores character)
+		add $t3, $0, 0 						#initializes $t3 to 1 (counter)
+		li $t0, 10 							#10 is the ascii value of new line
 		
-		#checking is string empty before continuation
+		addi $t6, $0, 0 					#$t6 = $sum_reg. Initialized to 0
+		addi $t7, $0, 0 					#contents of $t6 will be moved to t7 after multiplcation
+		addi $t8, $0, 0 					#counter for spaces in between letters
+		addi $t5, $0, 1 					#$t5 = $pow_reg Initialized to 1.
+		addi $t4, $0, 32 					#stores 32 (space) in t4
+		
 		la $t2, char_array 					#stores string address into register
 		lb $t1,0($t2) 						#loads first index of string
-		li $t0, 10 							#10 is the ascii value of new line
-		beq $t1, $t0 invalid_emptyOUT 		#looks for new_line character at first index: checking if input is empty
-		beq $t1, $0 invalid_emptyOUT		#looks for null character at first index: checking if input is empty
-		
-		addi $t5, $0, 1 	#$t5 = $pow_reg Initialized to 1.
-		addi $t6, $0, 0 	#$t6 = $sum_reg. Initialized to 0
-		addi $t7, $0, 0 	#contents of $t6 will be moved to t7 after multiplcation
-		addi $s5, $0, 31 	#s0 contains the multiplicand increment, my base 31
-		addi $t4, $0, 32 	#stores 32 (space) in t4
-		addi $t8, $0, 0 	#counter for spaces in between letters
+		beq $t1, $t0 invalid_empty 			#looks for new_line character at first index: checking if input is empty
+		beq $t1, $0 invalid_empty			#looks for null character at first index: checking if input is empty
 		
 		#Is_Valid_Spaces?
 		loop_one:
@@ -39,8 +37,8 @@
 			addi $t2, $t2, 1
 			addi $t3, $t3, 1
 			beq $t1, $t4, loop_one
-			beq $t1, $t0, invalid_emptyOUT
-			beq $t1, $0, invalid_emptyOUT
+			beq $t1, $t0, invalid_empty
+			beq $t1, $0, invalid_empty
 			
 		loop_two:
 			lb $t1,0($t2)
@@ -72,68 +70,38 @@
 			beq $t1, 32, count_non_space_chars
 			beq $t1, 10, go_back_one
 			beq $t1,0, go_back_one	
-			beq $t3, 4, invalid_lengthOUT
+			beq $t3, 4, invalid_length
 			addi $t3, $t3, 1 
 			j count_non_space_chars
+			
 		#go back until you get to non-space characters. 
 		go_back_one:
 			addi $t2, $t2, -1
+			
 		go_back:
 			addi $t2, $t2, -1
 			lb $t1, 0($t2)
 			beq $t1, 32, go_back 
-		#Then iterate backwards over non-space characters
 		
+		#Calling my subprogram to Convert
 		move $a0, $t1  #curr char
-		move $a1, $t2  #addr char
+		move $a1, $t2  #string address
 		move $a2, $t5  #power
 		move $a3, $t3  #len
 		
 		jal Convert
-		move $a0, $v0
 		
+		move $a0, $v0
 		li $v0, 1 #prints contents of a0
 		syscall
-		
-		li $v0,10 #ends program
-		syscall
-		
-		#BRANCHES FOR PRINTING/EXIT ERROR MESSAGES------------------------------
-		#Exit if string is too long
-		invalid_lengthOUT:
-		  la $a0, too_long #loads string
-		  li $v0, 4 		#prints new line for string
-		  syscall
 
-		  li $v0,10 #ends program
-		  syscall
-		   
-		#Exit if string is empty
-		invalid_emptyOUT:
-		  la $a0, empty #loads string
-		  li $v0, 4 	#prints new line for string
-		  syscall
-
-		  li $v0,10 	#ends program
-		  syscall
+		Exit:
+			li $v0,10 	#ends program
+			syscall
 		
-		#Exit if string is Invalid, outside of range
-		invalid_baseOUT:
-		  la $a0, not_valid #loads string
-		  li $v0, 4 		#prints new line for string
-		  syscall
-
-		  li $v0,10 #ends program
-		  syscall
-		  
-		#Exit if we see spaces in the middle of character
-		invalid_baseChar:
-			bgt $t8, 3, invalid_lengthOUT
-			j invalid_baseOUT
-		
-		
-		#---------------------------------------------------------------------------------------
-		
+		jr $ra
+	
+	#-------------------------------------------------------------------------------------------------
 	
 .globl Convert
 	Convert:
@@ -178,11 +146,10 @@
 		
 		multiply:
 			mul $s4, $a0, $a2 		#multiplying the current char times a power of 31
-		
 			mul $a2, $a2, $s5 		#multiplying the power regester times 31, to get to the next power of 31
 			jal Convert
 		
-		add $v0, $s4, $v0 #Please Work
+		add $v0, $s4, $v0 
 		
 		lw $ra, ($sp)
 		lw $s0, 4($sp)
@@ -206,29 +173,30 @@
 			
 			jr $ra
 		
-		#Exit if string is too long
-		invalid_length:
-		  la $a0, too_long #loads string
-		  li $v0, 4 		#prints new line for string
-		  syscall
+#Exit if string is too long
+invalid_length:
+  la $a0, too_long #loads string
+  li $v0, 4 		#prints new line for string
+  syscall
 
-		  li $v0,10 #ends program
-		  syscall
-		   
-		#Exit if string is empty
-		invalid_empty:
-		  la $a0, empty #loads string
-		  li $v0, 4 	#prints new line for string
-		  syscall
+  j Exit
+   
+#Exit if string is empty
+invalid_empty:
+  la $a0, empty #loads string
+  li $v0, 4 	#prints new line for string
+  syscall
 
-		  li $v0,10 	#ends program
-		  syscall
-		
-		#Exit if string is Invalid, outside of range
-		invalid_base:
-		  la $a0, not_valid #loads string
-		  li $v0, 4 		#prints new line for string
-		  syscall
+  j Exit
 
-		  li $v0,10 #ends program
-		  syscall	
+#Exit if we see spaces in the middle of character
+invalid_baseChar:
+	bgt $t8, 3, invalid_length
+	
+#Exit if string is Invalid, outside of range
+invalid_base:
+  la $a0, not_valid #loads string
+  li $v0, 4 		#prints new line for string
+  syscall
+
+  j Exit
