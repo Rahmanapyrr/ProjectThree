@@ -110,6 +110,7 @@
 		sw $s2, 12($sp)
 		sw $s3, 16($sp)
 		sw $s4, 20($sp)
+		
 		beq $a3, $0, finish
 		
 		lb $a0, 0($a1)
