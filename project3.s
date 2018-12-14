@@ -8,14 +8,14 @@
 .text
 
 .globl main
-	main:
-		#getting input from user
-		li $v0, 8  
+	main:										
+		li $v0, 8							#getting input from user  
 		la $a0, char_array
 		li $a1, 500000
 		syscall
 		
 		addi $s5, $0, 31 					#My Base 31
+		
 		add $t1, $0, 0 						#initializes $t1 to zero (stores character)
 		add $t3, $0, 0 						#initializes $t3 to 1 (counter)
 		li $t0, 10 							#10 is the ascii value of new line
@@ -84,12 +84,23 @@
 			beq $t1, 32, go_back 
 		
 		#Calling my subprogram to Convert
+		li $s4, 0
 		move $a0, $t1  #curr char
 		move $a1, $t2  #string address
 		move $a2, $t5  #power
 		move $a3, $t3  #len
 		
+		addi $sp, $sp, -16
+		#sw $ra, 0($sp)
+		sw $a0, 0($sp) #curr char
+		sw $a1, 4($sp) #string address
+		sw $a2, 8($sp) #current power (initialized to 1)
+		sw $a3, 12($sp) #length string
+		
 		jal Convert
+
+		lw $v0, 0($sp)
+		addi $sp, $sp, 4
 		
 		move $a0, $v0
 		li $v0, 1 #prints contents of a0
@@ -101,27 +112,25 @@
 		
 		jr $ra	
 	#-------------------------------------------------------------------------------------------------
+	
 .globl Convert
 	Convert:
-		addi $sp, $sp, -24
-		sw $ra ($sp)
-		sw $s0, 4($sp)
-		sw $s1, 8($sp)
-		sw $s2, 12($sp)
-		sw $s3, 16($sp)
-		sw $s4, 20($sp)
+		lw $a0, 0($sp)
+		lw $a1, 4($sp)
+		lw $a2, 8($sp)
+		lw $a3, 12($sp)
+		addi $sp, $sp, 16
+
+		addi $sp, $sp, -8
+		sw $ra, 0($sp)
+		sw $s4, 4($sp)
 		
 		beq $a3, $0, finish
 		
 		lb $a0, 0($a1)
 		addi $a1, $a1, -1
 		addi $a3, $a3, -1
-		
-		move $s0, $a0  #curr char
-		move $s1, $a1  #addr char
-		move $s2, $a2  #power
-		move $s3, $a3  #len
-		
+
 		check_string:
 		  blt $a0, 48, invalid_base 		#checks if character is before 0 in ASCII chart
 		  blt $a0, 58, Translate_Number 	#checks if character is between 48 and 57
@@ -146,29 +155,36 @@
 		multiply:
 			mul $s4, $a0, $a2 		#multiplying the current char times a power of 31
 			mul $a2, $a2, $s5 		#multiplying the power regester times 31, to get to the next power of 31
+			
+			addi $sp, $sp, -16
+			sw $a0, 0($sp) #curr char
+			sw $a1, 4($sp) #string address
+			sw $a2, 8($sp) #current power (initialized to 1)
+			sw $a3, 12($sp) #length string
+			
 			jal Convert
-		
-		add $v0, $s4, $v0 
-		
-		lw $ra, ($sp)
-		lw $s0, 4($sp)
-		lw $s1, 8($sp)
-		lw $s2, 12($sp)
-		lw $s3, 16($sp)
-		lw $s4, 20($sp)
-		addi $sp, $sp, 24
-		
-		jr $ra
+			
+			lw $v0, 0($sp)
+			addi $sp, $sp, 4
+			add $v0, $s4, $v0 
+			
+			lw $ra, 0($sp)
+			lw $s4, 4($sp)
+			addi $sp, $sp, 8
+
+			addi $sp, $sp, -4
+			sw $v0, 0($sp)
+						
+			jr $ra
 		
 		finish:
 			li $v0, 0
-			lw $ra, ($sp)
-			lw $s0, 4($sp)
-			lw $s1, 8($sp)
-			lw $s2, 12($sp)
-			lw $s3, 16($sp)
-			lw $s4, 20($sp)
-			addi $sp, $sp, 24
+			lw $ra, 0($sp)
+			lw $s4, 4($sp)
+			addi $sp, $sp, 8
+			
+			addi $sp, $sp, -4
+			sw $v0, 0($sp)
 			
 			jr $ra
 		
