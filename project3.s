@@ -191,10 +191,10 @@ invalid_empty:
 
 invalid_baseChar:
 	bge $t8, 4, invalid_length
-	lb $t1,0($t2)
-	addi $t2, $t2, 1
-	addi $t8, $t8, 1
-	bne $t1, 10 invalid_baseChar
+	#lb $t1,0($t2)
+	#addi $t2, $t2, 1
+	#addi $t8, $t8, 1
+	#bne $t1, 10 invalid_baseChar
 
 invalid_base:
 	la $a0, not_valid 		
