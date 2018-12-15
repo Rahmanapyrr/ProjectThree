@@ -9,7 +9,7 @@
 
 .globl main
 	main:										
-		li $v0, 8							#getting input from user  
+		li $v0, 8						#getting input from user  
 		la $a0, char_array
 		li $a1, 500000
 		syscall
@@ -20,7 +20,7 @@
 		add $t1, $0, 0 						#initializes $t1 to zero (stores character)
 		add $t3, $0, 0 						#initializes $t3 to 1 (counter)
 		
-		li $t0, 10 							#10 is the ascii value of new line
+		li $t0, 10 						#10 is the ascii value of new line
 		
 		addi $t4, $0, 32 					#stores 32 (space) in t4
 		addi $t5, $0, 1 					#$t5 = $pow_reg Initialized to 1.
@@ -57,7 +57,7 @@
 			
 		#Now that we know that the input is valid in terms of spaces, let's restart the counter
 		restart_arr:
-			sub $t2, $t2, $t3 	#restarting the character array pointer
+			sub $t2, $t2, $t3 		#restarting the character array pointer
 			li $t3, 0 			#restaring the counter
 	
 		count_non_space_chars:
@@ -95,7 +95,7 @@
 		syscall
 
 	Exit:
-		li $v0,10 	#ends program
+		li $v0,10 			#ends program
 		syscall
 		
 		jr $ra	
@@ -125,11 +125,11 @@
 		  ble $a0, 64, invalid_base 		#checks if character is between 58 and 64
 		  ble $a0, 85, Translate_UpperCase 	#checks if character is between 65 and 85
 		  ble $a0, 96, invalid_base 		#checks if character is between 85 and 96
-		  ble $a0, 117, Translate_LowerCase #checks if character is between 96 and 117
+		  ble $a0, 117, Translate_LowerCase 	#checks if character is between 96 and 117
 		  blt $a0, 128, invalid_base 		#checks if character is between 118 and 127
 		
 		Translate_Number:
-			addi $a0, $a0, -48 				#minus -48 from the ASCII value
+			addi $a0, $a0, -48 				#minus 48 from the ASCII value
 			j multiply
 			
 		Translate_LowerCase:
