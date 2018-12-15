@@ -14,18 +14,18 @@
 		li $a1, 500000
 		syscall
 		
-		la $t2, char_array 					#stores string address into register
+		la $t2, char_array 						#stores string address into register
 		
-		addi $s5, $0, 31 					#My Base 31
-		add $t1, $0, 0 						#initializes $t1 to zero (stores character)
-		add $t3, $0, 0 						#initializes $t3 to 1 (counter)
+		addi $s5, $0, 31 						#My Base 31
+		add $t1, $0, 0 							#initializes $t1 to zero (stores character)
+		add $t3, $0, 0 							#initializes $t3 to 1 (counter)
 		
 		li $t0, 10 							#10 is the ascii value of new line
 		
-		addi $t4, $0, 32 					#stores 32 (space) in t4
-		addi $t5, $0, 1 					#$t5 = $pow_reg Initialized to 1.
-		addi $t6, $0, 0 					#$t6 = $sum_reg. Initialized to 0
-		addi $t8, $0, 0 					#counter for spaces in between letters
+		addi $t4, $0, 32 						#stores 32 (space) in t4
+		addi $t5, $0, 1 						#$t5 = $pow_reg Initialized to 1.
+		addi $t6, $0, 0 						#$t6 = $sum_reg. Initialized to 0
+		addi $t8, $0, 0 						#counter for spaces in between letters
 		
 		#Is_Valid_Spaces?
 		loop_one:
@@ -57,7 +57,7 @@
 			
 		#Now that we know that the input is valid in terms of spaces, let's restart the counter
 		restart_arr:
-			sub $t2, $t2, $t3 	#restarting the character array pointer
+			sub $t2, $t2, $t3 		#restarting the character array pointer
 			li $t3, 0 			#restaring the counter
 	
 		count_non_space_chars:
@@ -101,20 +101,20 @@
 		jr $ra	
 
 .globl Convert
-	Convert:
-		lw $a0, 0($sp)
-		lw $a1, 4($sp)
-		lw $a2, 8($sp)
-		lw $a3, 12($sp)
+	Convert:				#loading args off the stack
+		lw $a0, 0($sp)			#char
+		lw $a1, 4($sp)			#string
+		lw $a2, 8($sp)			#power
+		lw $a3, 12($sp)			#string length
 		addi $sp, $sp, 16
 
-		addi $sp, $sp, -8
+		addi $sp, $sp, -8		#allocating space for return values
 		sw $ra, 0($sp)
 		sw $s4, 4($sp)
 		
 		beq $a3, $0, finish
 		
-		lb $a0, 0($a1)
+		lb $a0, 0($a1)			#decrementing values for next recursive iteration
 		addi $a1, $a1, -1
 		addi $a3, $a3, -1
 		  
@@ -124,7 +124,7 @@
 		  ble $a0, 64, invalid_base 		#checks if character is between 58 and 64
 		  ble $a0, 85, Translate_UpperCase 	#checks if character is between 65 and 85
 		  ble $a0, 96, invalid_base 		#checks if character is between 85 and 96
-		  ble $a0, 117, Translate_LowerCase #checks if character is between 96 and 117
+		  ble $a0, 117, Translate_LowerCase	#checks if character is between 96 and 117
 		  blt $a0, 128, invalid_base 		#checks if character is between 118 and 127
 		
 		Translate_Number:
@@ -140,20 +140,20 @@
 			j multiply
 		
 		multiply:
-			mul $s4, $a0, $a2 				#multiplying the current char times a power of 31
+			mul $s4, $a0, $a2 				#multiplying the current char times a power of 31 and storing it in subsum
 			mul $a2, $a2, $s5 				#multiplying the power regester times 31, to get to the next power of 31
 			
 			addi $sp, $sp, -16
-			sw $a0, 0($sp) 					#curr char
+			sw $a0, 0($sp) 					#current char
 			sw $a1, 4($sp) 					#string address
 			sw $a2, 8($sp) 					#current power 
-			sw $a3, 12($sp) 				#length string
+			sw $a3, 12($sp) 				#string length
 			
 			jal Convert
 		
 		lw $v0, 0($sp)
 		addi $sp, $sp, 4
-		add $v0, $s4, $v0 
+		add $v0, $s4, $v0 		#adding the subsum with the previous return value (sub_sum)
 		
 		lw $ra, 0($sp)
 		lw $s4, 4($sp)
