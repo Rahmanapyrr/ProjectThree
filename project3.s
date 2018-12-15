@@ -21,7 +21,6 @@
 		li $t0, 10 							#10 is the ascii value of new line
 		
 		addi $t6, $0, 0 					#$t6 = $sum_reg. Initialized to 0
-		addi $t7, $0, 0 					#contents of $t6 will be moved to t7 after multiplcation
 		addi $t8, $0, 0 					#counter for spaces in between letters
 		addi $t5, $0, 1 					#$t5 = $pow_reg Initialized to 1.
 		addi $t4, $0, 32 					#stores 32 (space) in t4
@@ -91,7 +90,6 @@
 		move $a3, $t3  #len
 		
 		addi $sp, $sp, -16
-		#sw $ra, 0($sp)
 		sw $a0, 0($sp) #curr char
 		sw $a1, 4($sp) #string address
 		sw $a2, 8($sp) #current power (initialized to 1)
